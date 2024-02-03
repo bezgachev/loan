@@ -32,44 +32,50 @@ export default class MiniSlider extends Slider {
     }
 
     bindTriggers() {
-        this.next.addEventListener('click', () => this.nextSlide());
+        this.next.forEach(el => {
+            el.addEventListener('click', (e) => this.nextSlide());
+        });
 
-        this.prev.addEventListener('click', () => {
+        this.prev.forEach(el => {
+            el.addEventListener('click', (e) => {
 
-            for (let i = this.slides.length - 1; i > 0; i--) {
-                if (this.slides[i].tagName !== "BUTTON") {
-                    let active = this.slides[i];
-                    this.container.insertBefore(active, this.slides[0]);
-                    this.decorizeSlides();
-                    break;
+                for (let i = this.slides.length - 1; i > 0; i--) {
+                    if (this.slides[i].tagName !== "BUTTON") {
+                        let active = this.slides[i];
+                        this.container.insertBefore(active, this.slides[0]);
+                        this.decorizeSlides();
+                        break;
+                    }
                 }
-            }
-            
+                
+            });
         });
     }
 
     init() {
-        this.container.style.cssText = `
-            display: flex;
-            flex-wrap: wrap;
-            overflow: hidden;
-            align-items: flex-start;
-        `;
+        try {
+            this.container.style.cssText = `
+                display: flex;
+                flex-wrap: wrap;
+                overflow: hidden;
+                align-items: flex-start;
+            `;
 
-        this.bindTriggers();
-        this.decorizeSlides();
+            this.bindTriggers();
+            this.decorizeSlides();
 
-        if (this.autoplay) {
-            this.startPlay();
-            [this.container, this.next, this.prev].forEach(el => {
-                el.addEventListener('mouseenter', () => this.stopPlay());
-            });
+            if (this.autoplay) {
+                this.startPlay();
+                [this.container, this.next, this.prev].forEach(el => {
+                    el.addEventListener('mouseenter', () => this.stopPlay());
+                });
 
-            [this.container, this.next, this.prev].forEach(el => {
-                el.addEventListener('mouseleave', () => this.startPlay());
-            });
+                [this.container, this.next, this.prev].forEach(el => {
+                    el.addEventListener('mouseleave', () => this.startPlay());
+                });
 
-        }
+            }
+        } catch(e){}
     }
 
     startPlay() {
