@@ -52,6 +52,16 @@ export default class MiniSlider extends Slider {
         });
     }
 
+    startPlay() {
+        this.playing = setInterval(() => {
+            this.nextSlide();
+        }, 5000);
+    }
+
+    stopPlay() {
+        clearInterval(this.playing);
+    }
+
     init() {
         try {
             this.container.style.cssText = `
@@ -66,25 +76,16 @@ export default class MiniSlider extends Slider {
 
             if (this.autoplay) {
                 this.startPlay();
-                [this.container, this.next, this.prev].forEach(el => {
+
+                [this.container, ...this.next, ...this.prev].forEach(el => {
                     el.addEventListener('mouseenter', () => this.stopPlay());
                 });
 
-                [this.container, this.next, this.prev].forEach(el => {
+                [this.container, ...this.next, ...this.prev].forEach(el => {
                     el.addEventListener('mouseleave', () => this.startPlay());
                 });
 
             }
         } catch(e){}
-    }
-
-    startPlay() {
-        this.playing = setInterval(() => {
-            this.nextSlide();
-        }, 5000);
-    }
-
-    stopPlay() {
-        clearInterval(this.playing);
     }
 }
