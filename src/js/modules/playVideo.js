@@ -16,7 +16,10 @@ export default class VideoPlayer {
             }
         });
 
-        this.overlay.style.display = 'flex';
+        this.overlay.style.cssText = `
+            display: flex;
+            z-index: 999;
+        `;
     }
 
     onPlayerStateChange(state) {
